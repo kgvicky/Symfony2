@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProgramRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
 class Program
@@ -14,25 +17,85 @@ class Program
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $title = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $synopsis = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poster = null;
+
+    #[ORM\ManyToOne(inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class)]
+    private Collection $seasons;
+
+    public function __construct()
+    {
+        $this->seasons = new ArrayCollection();
+    }
+
+    public function addSeason(Season $season): void
+    {
+        if (!$this->seasons->contains($season)) {
+            $this->seasons[] = $season;
+            $season->setProgram($this);
+        }
+    }
+
+    public function removeSeason(Season $season): void
+    {
+        if ($this->seasons->removeElement($season)) {
+            if ($season->getProgram() === $this) {
+                $season->setProgram(null);
+            }
+        }
+    }
+
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): static
+    public function setTitle(string $title): static
     {
-        $this->name = $name;
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSynopsis(): ?string
+    {
+        return $this->synopsis;
+    }
+
+    public function setSynopsis(string $synopsis): static
+    {
+        $this->synopsis = $synopsis;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): static
+    {
+        $this->poster = $poster;
 
         return $this;
     }
@@ -42,7 +105,7 @@ class Program
         return $this->category;
     }
 
-    public function setCategory(?Category $category): static
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 

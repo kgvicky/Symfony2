@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Séries de la catégorie {{ category.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    {% if series %}
+        <h2>Séries dans cette catégorie</h2>
+        <ul>
+            {% for serie in series %}
+                <li>
+                    {{ serie.id }} / {{ serie.title }} - {{ serie.summary }}
+                    (<a href="{{ path('series_show', {'id': serie.id}) }}">Voir la fiche</a>)
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune série trouvée.</p>
+    {% endif %}
+{% endblock %}
