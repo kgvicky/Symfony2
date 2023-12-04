@@ -1,8 +1,10 @@
 <?php
 
 namespace App\DataFixtures;
+
+use Faker\Factory;
 use App\Entity\Season;
-use App\Entity\Programme;
+use App\Entity\Program;
 use App\Entity\Episode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

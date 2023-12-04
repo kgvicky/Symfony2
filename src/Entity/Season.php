@@ -77,12 +77,12 @@ class Season
         return $this;
     }
 
-    public function getProgramme(): ?Program
+    public function getProgram(): ?Program
     {
         return $this->program;
     }
 
-    public function setProgramme(?Program $program): static
+    public function setProgram(?Program $program): static
     {
         $this->program = $program;
 

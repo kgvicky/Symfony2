@@ -33,20 +33,17 @@ Class ProgramController extends AbstractController
 
         if (!$program) {
             throw $this->createNotFoundException(
-                'No program with id : '.$id.' found in programme\'s table.'
+                'No program with id : '.$id.' found in program\'s table.'
             );
         }
-
-
-
 
         return $this->render('program/show.html.twig', [
             'program' => $program,
         ]);
     }
 
-    #[Route('/{programmeId}/seasons/{seasonId}', name: 'season_show')]
-    public function showSeason(int $programmeId, int $seasonId, ProgramRepository $programmeRepository, SeasonRepository $seasonRepository): Response
+    #[Route('/{programId}/seasons/{seasonId}', name: 'season_show')]
+    public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository): Response
     {
         $program = $programRepository->findOneBy(['id' => $programId]);
         if (!$program) {

@@ -31,7 +31,7 @@ class Category
         return $this->programs;
     }
 
-    public function addProgramme(Program $program): self
+    public function addProgram(Program $program): self
     {
         if (!$this->programs->contains($program)) {
             $this->programs->add($program);
@@ -41,11 +41,11 @@ class Category
         return $this;
     }
 
-    public function removeProgramme(Program $programme): self
+    public function removeProgram(Program $program): self
     {
-        if ($this->programs->removeElement($programme)) {
-            if ($programme->getCategory() === $this) {
-                $programme->setCategory(null);
+        if ($this->programs->removeElement($program)) {
+            if ($program->getCategory() === $this) {
+                $program->setCategory(null);
             }
         }
 
