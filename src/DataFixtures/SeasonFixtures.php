@@ -15,7 +15,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            ProgrammeFixtures::class,
+            ProgramFixtures::class,
         ];
     }
 
@@ -24,10 +24,10 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
 
         $season = new Season();
         $season->setNumber(1);
-        $season->setProgram($this->getReference('program_TheLastOfUs'));
+        $season->setProgram($this->getReference('program_The Last of Us'));
         $season->setYear(2022);
         $season->setDescription("En 2003, Joel (Pedro Pascal) vit avec sa fille Sarah (Nico Parker) et son frère Tommy (Gabriel Luna) à Austin, Texas, qui travaille dans le bâtiment. Sarah paye pour faire réparer la montre de Joel pour son anniversaire. Elle s'endort devant un film et Joel part payer la caution de Tommy pour le sortir de prison. Sarah se réveille quelques heures plus tard et retrouve ses voisins morts, l'un d'eux devenu une créature cannibale. Joel rentre avec Tommy et tue la créature. Alors que Joel, Tommy et Sarah s'enfuient au milieu d'une foule terrorisée, les débris d'un avion s'écrasent sur le camion de Tommy et le renversent. Joel essaie de s'enfuir vers la rivière avec Sarah mais il est bloqué par un soldat armé, qui leur tire dessus. Tommy tue le soldat, mais Sarah est mortellement blessée et meurt dans les bras de son père.");
-        $this->addReference('season1_TheLastOfUs', $season);
+        $this->addReference('season_The Last of Us', $season);
         $manager->persist($season);
 
         $season = new Season();

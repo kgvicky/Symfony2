@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Series #{{ programme.id }}{% endblock %}
+{% block title %}Series #{{ program.id }}{% endblock %}
 
 {% block body %}
 
-            <h1 class="mt-0">Season {{ season.number }} of {{ programme.title }}</h1>
+            <h1 class="mt-0">Season {{ season.number }} of {{ program.title }}</h1>
             <p>{{ season.description }}</p>
     {% if season.episodes %}
             <h2>Episodes: </h2>

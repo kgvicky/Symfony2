@@ -9,9 +9,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
-        $manager->flush();
+     //   $this->addReference('category_reference_name', new CategoryFixtures());
+       // $this->addReference('program_reference_name', new ProgramFixtures());
     }
 }
