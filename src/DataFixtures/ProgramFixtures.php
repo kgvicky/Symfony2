@@ -19,32 +19,30 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 
         ];
 
-
-    public function load(ObjectManager $manager): void
-    {
-        $faker = Factory::create();
-
-        foreach (self::PROGRAMMES as $program) {
-            $newProgram = new Program();
-            $newProgram->setTitle($program['title']);
-            $newProgram->setSynopsis($program['synopsis']);
-            //GET CATEGORY (entity) REFERENCE
-            // $program->setCategory($this->getReference('category_'));
-            $newProgram->setCategory($this->getReference('category_' . $program['category']));
-            // $program->setCategory($program['category']);
-            $manager->persist($newProgram);
-            // $this->addReference('program_' . $program->getTitle(), $program);
-            $this->addReference('program_'. $program['title'], $newProgram);
+        public function getDependencies(): array
+        {
+            return [
+                CategoryFixtures::class,
+            ];
         }
-
-        $manager->flush();
-
+    
+        public function load(ObjectManager $manager): void
+        {
+            foreach (self::PROGRAMMES as $programDescription) {
+                $program = new Program();
+                $program->setTitle($programDescription['title']);
+                $program->setSynopsis($programDescription['synopsis']);
+                $program->setYear($programDescription['year']);
+                $program->setCountry($programDescription['country']);
+                $program->setCategory($this->getReference($programDescription['category']));
+                $manager->persist($program);
+                $this->addReference('program_' . $programDescription['title'], $program);
+            }
+            $manager->flush();
+        }
+    
+        static function getTitles(): array
+        {
+            return array_map(fn ($array) => $array['title'], self::PROGRAMMES);
+        }
     }
-
-    public function getDependencies(): array
-    {
-        return [
-            CategoryFixtures::class,
-        ];
-    }
-}
