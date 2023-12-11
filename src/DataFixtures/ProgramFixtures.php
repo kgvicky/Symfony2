@@ -40,9 +40,22 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             }
             $manager->flush();
         }
-    
+
         static function getTitles(): array
-        {
-            return array_map(fn ($array) => $array['title'], self::PROGRAMMES);
-        }
+{
+    $titles = [];
+
+    foreach (self::PROGRAMMES as $array) {
+        $titles[] = $array['title'];
     }
+
+    return $titles;
+}
+
+}
+    
+    //     static function getTitles(): array
+    //     {
+    //         return array_map(fn ($array) => $array['title'], self::PROGRAMMES);
+    //     }
+    // }
