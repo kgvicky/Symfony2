@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
 class Program
@@ -32,9 +33,19 @@ class Program
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class)]
     private Collection $seasons;
 
+    #[ORM\Column]
+    private ?int $year = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $country = null;
+
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'programs')]
+    private Collection $actors;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function addSeason(Season $season): void
@@ -112,24 +123,12 @@ class Program
         return $this;
     }
 
-        /**
-     * @ORM\Column(type="integer")
-     */
-    private $year;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $country;
-
-    // ...
-
     public function getYear(): ?int
     {
         return $this->year;
     }
 
-    public function setYear(int $year): self
+    public function setYear(int $year): static
     {
         $this->year = $year;
 
@@ -141,10 +140,38 @@ class Program
         return $this->country;
     }
 
-    public function setCountry(string $country): self
+    public function setCountry(string $country): static
     {
         $this->country = $country;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): static
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+            $actor->addProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): static
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeProgram($this);
+        }
+
+        return $this;
+    }
+
 }
